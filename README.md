@@ -41,3 +41,19 @@ Con esta tabla es posible consultar:
 Dependiendo de la necesidad de negocio, se pueden hacer cambios adicionales.
 - Si es importante que un usuario pueda ver de forma sencilla todos los inmuebles a los que le dá like, este model es suficiente
 - Si es importante hacer el ranking interno y las consultas sobre "cantidad de likes" en inmuebles son muchas, podriamos evitar hacer un "COUNT" sobre esta tabla por  cada consulta y apostar por una redundancia, agregando una columna a la tabla "property" llamada "like_count", donde por casa insert sobre la tabla like, este valor aumentaría en uno, con ello, la consulta sería inmediata.
+
+## Mejoras para la BD actual
+### Indices
+Manteniendo la estructura actual, se podrian agregar algunos indices sobre la tabla Property para que las busquedas puedan ser mas rapidas, por ejemplo
+
+```sql
+CREATE INDEX city_and_year_idx ON property (city, year);
+```
+
+Teniendo en cuenta que un indice sobre varias columnas funciona mejor que un indice para cada columna simple
+
+
+### Tablas historicas y transaccionales
+Puede mejorar el uso de la tabla status_history, actualmente se esta usando tanto como una tabla de "historial" como una tabla "transaccional", esto podria generar problemas y complicar las queries sobre el.
+
+Una propuesta sobre esto es dejar que status_history solo funcione como una tabla "historica" para consultas que puedan interesarle negocio para auditorias o solo de forma anecdotica y que la propia tabla property tenga una columna "state" que indique su estado actual.
