@@ -11,10 +11,13 @@ def test_find_properties_use_case():
     assert result[0].year == 2000
     assert result[0].city == "bogotá"
     assert result[0].description == "description"
+    assert len(result) == 1
 
 
 class MockedPropertyGateway(PropertyGateway):
     def find_properties(self, year: int = None, city: str = None, state: str = None) -> list[Property]:
-        return [Property(
-            id=1, address="address", city=city, price=10, description="description", year=year
-        )]
+        return [
+            Property(id=1, address="address", city=city, price=10, description="description", year=year),
+            Property(id=1, address="", city=city, price=10, description="description", year=year),
+            Property(id=1, address="address", city=city, price=0, description="description", year=year)
+        ]
