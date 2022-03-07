@@ -1,5 +1,3 @@
-from injector import inject
-
 from core.domain.property.model.Property import Property
 from core.domain.property.model.PropertyFilters import PropertyFilters
 from core.domain.property.gateway.PropertyGateway import PropertyGateway
@@ -8,7 +6,6 @@ from core.shared.UseCase import UseCase
 
 class FindPropertiesUseCase(UseCase):
 
-    @inject
     def __init__(self, property_repository: PropertyGateway):
         self.property_repository = property_repository
 
